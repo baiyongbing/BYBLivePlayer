@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		65283C091F0A8CEB000E23A9 /* BYBSegmentMenuView.m in Sources */ = {isa = PBXBuildFile; fileRef = 65283C081F0A8CEB000E23A9 /* BYBSegmentMenuView.m */; };
+		65283C331F0A9268000E23A9 /* BYBMessageTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 65283C311F0A9268000E23A9 /* BYBMessageTableViewCell.m */; };
+		65283C341F0A9268000E23A9 /* BYBMessageTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 65283C321F0A9268000E23A9 /* BYBMessageTableViewCell.xib */; };
 		F34520EE1EFCEEFD00000826 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = F34520ED1EFCEEFD00000826 /* main.m */; };
 		F34520F11EFCEEFE00000826 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = F34520F01EFCEEFE00000826 /* AppDelegate.m */; };
 		F34520F41EFCEEFE00000826 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F34520F31EFCEEFE00000826 /* ViewController.m */; };
@@ -98,6 +101,11 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		65283C071F0A8CEB000E23A9 /* BYBSegmentMenuView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BYBSegmentMenuView.h; sourceTree = "<group>"; };
+		65283C081F0A8CEB000E23A9 /* BYBSegmentMenuView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BYBSegmentMenuView.m; sourceTree = "<group>"; };
+		65283C301F0A9268000E23A9 /* BYBMessageTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BYBMessageTableViewCell.h; sourceTree = "<group>"; };
+		65283C311F0A9268000E23A9 /* BYBMessageTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BYBMessageTableViewCell.m; sourceTree = "<group>"; };
+		65283C321F0A9268000E23A9 /* BYBMessageTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = BYBMessageTableViewCell.xib; sourceTree = "<group>"; };
 		F34520E91EFCEEFD00000826 /* BYBLivePlayer.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BYBLivePlayer.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		F34520ED1EFCEEFD00000826 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		F34520EF1EFCEEFD00000826 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -337,6 +345,18 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		65283C061F0A882C000E23A9 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				65283C071F0A8CEB000E23A9 /* BYBSegmentMenuView.h */,
+				65283C081F0A8CEB000E23A9 /* BYBSegmentMenuView.m */,
+				65283C301F0A9268000E23A9 /* BYBMessageTableViewCell.h */,
+				65283C311F0A9268000E23A9 /* BYBMessageTableViewCell.m */,
+				65283C321F0A9268000E23A9 /* BYBMessageTableViewCell.xib */,
+			);
+			name = View;
+			sourceTree = "<group>";
+		};
 		F34520E01EFCEEFD00000826 = {
 			isa = PBXGroup;
 			children = (
@@ -357,6 +377,7 @@
 		F34520EB1EFCEEFD00000826 /* BYBLivePlayer */ = {
 			isa = PBXGroup;
 			children = (
+				65283C061F0A882C000E23A9 /* View */,
 				F34521AE1F01F17F00000826 /* Rongframework */,
 				F34521711F01F00F00000826 /* AFNetworking */,
 				F345211E1F0000D700000826 /* BarrageRenderer */,
@@ -729,6 +750,7 @@
 				F34521F41F01F17F00000826 /* RongCloudKit.strings in Resources */,
 				F34521F91F01F17F00000826 /* RCEmotions.bundle in Resources */,
 				F34521A41F01F01000000826 /* LICENSE in Resources */,
+				65283C341F0A9268000E23A9 /* BYBMessageTableViewCell.xib in Resources */,
 				F34521F81F01F17F00000826 /* RCConfig.plist in Resources */,
 				F34520F71EFCEEFE00000826 /* Main.storyboard in Resources */,
 			);
@@ -746,6 +768,7 @@
 				F34521541F0000D700000826 /* BarrageFloatImageSprite.m in Sources */,
 				F345214D1F0000D700000826 /* BarrageClock.m in Sources */,
 				F34521A21F01F01000000826 /* AFURLResponseSerialization.m in Sources */,
+				65283C091F0A8CEB000E23A9 /* BYBSegmentMenuView.m in Sources */,
 				F34521701F0007DA00000826 /* NSSafeObject.m in Sources */,
 				F34521AD1F01F01000000826 /* UIWebView+AFNetworking.m in Sources */,
 				F34520F41EFCEEFE00000826 /* ViewController.m in Sources */,
@@ -774,6 +797,7 @@
 				F34521591F0000D700000826 /* BarrageViewPool.m in Sources */,
 				F345219E1F01F01000000826 /* AFNetworkReachabilityManager.m in Sources */,
 				F345215D1F0000D700000826 /* UIImageView+BarrageView.m in Sources */,
+				65283C331F0A9268000E23A9 /* BYBMessageTableViewCell.m in Sources */,
 				F345219D1F01F01000000826 /* AFHTTPSessionManager.m in Sources */,
 				F34521A11F01F01000000826 /* AFURLRequestSerialization.m in Sources */,
 				F345215C1F0000D700000826 /* BarrageWalkTextSprite.m in Sources */,
@@ -977,6 +1001,7 @@
 				F34521021EFCEEFE00000826 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

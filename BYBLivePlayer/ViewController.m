@@ -14,6 +14,8 @@
 #import "NSSafeObject.h"
 #import "AFNetworking.h"
 
+#import "BYBMessageTableViewCell.h"
+
 #import <CommonCrypto/CommonDigest.h>
 
 #define APPKEY @"c9kqb3rdk07wj"
@@ -21,15 +23,19 @@
 
 NSString *const RCDLiveKitDispatchMessageNotification = @"RCDLiveKitDispatchMessageNotification";
 
-@interface ViewController ()<RCIMClientReceiveMessageDelegate>
+@interface ViewController ()<RCIMClientReceiveMessageDelegate,UITableViewDelegate, UITableViewDataSource>
 
 @property(nonatomic, strong)IJKFFMoviePlayerController *livePlayer;
 
+@property(nonatomic, strong)UIView *livePlayerView;
+
+@property(nonatomic, strong)UIView *descripeView;
+
+@property(nonatomic, strong)UITableView *commonTableView;
+
 @property(nonatomic, strong)BarrageRenderer *BarrageRender;
 
-@property(nonatomic, strong)NSTimer *renderTimer;
-
-@property(nonatomic, assign)NSInteger index;
+@property(nonatomic, strong)UITableView *messageTableView;
 
 @property(nonatomic, strong)NSString *tokenStr;
 
@@ -47,9 +53,7 @@ NSString *const RCDLiveKitDispatchMessageNotification = @"RCDLiveKitDispatchMess
     
     [self getRongToken];
     
-//    UIView *liveRoom = [[UIView alloc] initWithFrame:CGRectMake(0, 20, self.view.bounds.size.width, self.view.bounds.size.height - 60)];
-//    [self.view addSubview:liveRoom];
-//    self.view.userInteractionEnabled = YES;
+    [self  initUI];
     
     [self initLivePlayer];
     
@@ -67,6 +71,20 @@ NSString *const RCDLiveKitDispatchMessageNotification = @"RCDLiveKitDispatchMess
     [self.livePlayer.view addSubview:sendMesBtn];
     
 }
+
+- (void)initUI
+{
+    UIView *livePlayerView = [[UIView alloc] initWithFrame: CGRectMake(0, 0, self.view.bounds.size.width, self.view.bounds.size.width*(9.0/16.0))];
+    self.livePlayerView = livePlayerView;
+    [self.view addSubview:livePlayerView];
+    
+    UIView *descripeView = [[UIView alloc] initWithFrame:CGRectMake(0, self.view.bounds.size.width*(9.0/16.0), self.view.bounds.size.width, 40)];
+    self.descripeView = descripeView;
+    descripeView.backgroundColor = [UIColor cyanColor];
+    [self.view addSubview:descripeView];
+
+}
+
 
 - (void)sendMessageClick:(UIButton *)sender
 {
@@ -88,19 +106,18 @@ NSString *const RCDLiveKitDispatchMessageNotification = @"RCDLiveKitDispatchMess
     // 音量
     [options setPlayerOptionIntValue:512 forKey:@"vol"];
     //
-    IJKFFMoviePlayerController *livePlayer = [[IJKFFMoviePlayerController alloc] initWithContentURLString:@"http://pull99.a8.com/live/1499006414142793.flv?ikHost=ws&ikOp=1&codecInfo=8192" withOptions:options];
+    IJKFFMoviePlayerController *livePlayer = [[IJKFFMoviePlayerController alloc] initWithContentURLString:@"rtmp://live.hkstv.hk.lxdns.com/live/hks" withOptions:options];
     
     self.livePlayer = livePlayer;
     
-    livePlayer.view.frame = self.view.bounds;
+    livePlayer.view.frame = self.livePlayerView.bounds;
     
     livePlayer.scalingMode = IJKMPMovieScalingModeFill;
     
     livePlayer.shouldAutoplay = NO;
     
-    [self.view insertSubview:livePlayer.view atIndex:0];
+    [self.livePlayerView insertSubview:livePlayer.view atIndex:0];
     
-//    livePlayer.view.userInteractionEnabled = YES;
     
     [livePlayer prepareToPlay];
     
@@ -220,38 +237,21 @@ NSString *const RCDLiveKitDispatchMessageNotification = @"RCDLiveKitDispatchMess
     if ((self.livePlayer.loadState & IJKMPMovieLoadStatePlaythroughOK) != 0) {
         if (!self.livePlayer.isPlaying) {
             [self.livePlayer play];
-            [self starBarrageRender];
             [self  addChatRoomWithID:nil];
             
         }else
         {
-            [self stopMockingBarrageMessage];
         }
     }else if (self.livePlayer.loadState &IJKMPMovieLoadStateStalled)
     {
-        [self stopMockingBarrageMessage];
     }
 }
 
-- (void)starBarrageRender
-{
-    [_BarrageRender start];
-    [self startMockingBarrageMessage];
-}
 
-- (void)startMockingBarrageMessage
-{
-    if ([self.renderTimer isValid]) {
-        [self.renderTimer invalidate];
-    }
-    NSSafeObject * safeObj = [[NSSafeObject alloc]initWithObject:self withSelector:@selector(autoSendBarrage)];
-    _renderTimer = [NSTimer scheduledTimerWithTimeInterval:0.5 target:safeObj selector:@selector(excute) userInfo:nil repeats:YES];
-}
+//NSSafeObject * safeObj = [[NSSafeObject alloc]initWithObject:self withSelector:@selector(autoSendBarrage)];
+//
 
-- (void)stopMockingBarrageMessage
-{
-    [self.renderTimer invalidate];
-}
+
 
 
 - (void)autoSendBarrage
@@ -267,13 +267,13 @@ NSString *const RCDLiveKitDispatchMessageNotification = @"RCDLiveKitDispatchMess
 {
     BarrageDescriptor *descriptor = [[BarrageDescriptor alloc] init];
     descriptor.spriteName = NSStringFromClass([BarrageWalkTextSprite class]);
-    descriptor.params[@"bizMsgId"] = [NSString stringWithFormat:@"%ld",(long)_index];
+//    descriptor.params[@"bizMsgId"] = [NSString stringWithFormat:@"%ld",(long)_index];
     if (message) {
         descriptor.params[@"text"] = message;
 
     }else
     {
-        descriptor.params[@"text"] = [NSString stringWithFormat:@"过场文字弹幕奥西吧:%ld",(long)_index++];
+//        descriptor.params[@"text"] = [NSString stringWithFormat:@"过场文字弹幕奥西吧:%ld",(long)_index++];
 
     }
     descriptor.params[@"textColor"] = [UIColor blueColor];
@@ -309,13 +309,55 @@ NSString *const RCDLiveKitDispatchMessageNotification = @"RCDLiveKitDispatchMess
     [self.BarrageRender receive:[self walkTextSpriteDescriptorWithDirection:BarrageWalkDirectionR2L side:BarrageWalkSideLeft withMessage:mcontent.content]];
 }
 
+- (UITableView *)messageTableView
+{
+    if (!_commonTableView) {
+        _commonTableView = [[UITableView alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(self.descripeView.bounds), self.view.bounds.size.width, 200) style:(UITableViewStylePlain)];
+        _commonTableView.delegate = self;
+        _commonTableView.dataSource = self;
+        _commonTableView.separatorStyle = UITableViewCellSeparatorStyleNone;
+        
+        [self.view addSubview:_commonTableView];
+        
+        [_commonTableView registerNib:[UINib nibWithNibName:@"BYBMessageTableViewCell" bundle:nil] forCellReuseIdentifier:@"BYBIdentifier"];
+    }
+    
+    return _commonTableView;
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    return 30;
+}
+
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
+{
+    return 1;
+}
+
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    BYBMessageTableViewCell * cell = [tableView dequeueReusableCellWithIdentifier:@"BYBIdentifier"];
+    if (cell) {
+        
+    }
+    
+    return cell;
+}
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+
+}
+
+
+
 - (void)dealloc
 {
     if (self.livePlayer) {
         [self.livePlayer.view removeFromSuperview];
         self.livePlayer = nil;
     }
-    [self stopMockingBarrageMessage];
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
